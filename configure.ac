@@ -1,15 +1,20 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.61])
-AC_INIT([libsearpc], [3.1.0], [info@seafile.com])
+AC_PREREQ([2.71])
+AC_INIT([libsearpc],[3.1.0],[info@seafile.com])
 AC_CONFIG_SRCDIR([lib/searpc-server.c])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 
 AM_INIT_AUTOMAKE([1.9 foreign])
-#AC_MINGW32
+AC_CANONICAL_HOST
+case $host_os in
+  *mingw32* ) MINGW32=yes;;
+	  * ) MINGW32=no;;
+esac
+
 AC_CANONICAL_BUILD
 # Checks for programs.
 AC_PROG_CC
@@ -39,7 +44,7 @@ AC_ARG_ENABLE([compile-demo],
 AM_CONDITIONAL([COMPILE_DEMO], [test x${compile_demo} = xyes])
 
 AC_ARG_ENABLE(server-pkg, 
-    AC_HELP_STRING([--enable-server-pkg], [enable static compile]),
+    AS_HELP_STRING([--enable-server-pkg],[enable static compile]),
     [server_pkg=$enableval],[server_pkg="no"])
 
 # option: compile-universal
